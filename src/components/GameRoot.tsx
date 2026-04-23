@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { GameProvider } from '@/context/GameContext';
+import { useGameDispatch, useGameState, GameProvider } from '@/context/GameContext';
 import { GameBoard } from './GameBoard';
 import { NextPanel } from './NextPanel';
 import { ScorePanel } from './ScorePanel';
@@ -12,11 +12,25 @@ import { MuteButton } from './MuteButton';
 import styles from './GameRoot.module.css';
 
 function GameInner() {
+  const { phase } = useGameState();
+  const dispatch = useGameDispatch();
+  const isPlaying = phase !== 'WAITING';
+
   return (
     <div className={styles.root}>
       <div className={styles.topBar}>
         <h1 className={styles.title}>ぷよぷよ</h1>
-        <MuteButton />
+        <div className={styles.topButtons}>
+          {isPlaying && (
+            <button
+              className={styles.restartButton}
+              onClick={() => dispatch({ type: 'RESTART' })}
+            >
+              やり直し
+            </button>
+          )}
+          <MuteButton />
+        </div>
       </div>
       <div className={styles.gameArea}>
         <div className={styles.sideLeft}>

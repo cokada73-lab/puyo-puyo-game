@@ -14,7 +14,7 @@ export function usePuyoGame(boardRef: React.RefObject<HTMLElement | null>) {
 
   // rAF game loop
   useEffect(() => {
-    if (state.phase === 'PAUSED' || state.phase === 'GAME_OVER') return;
+    if (state.phase === 'PAUSED' || state.phase === 'GAME_OVER' || state.phase === 'WAITING') return;
 
     let lastTime = performance.now();
     let rafId: number;
@@ -47,7 +47,7 @@ export function usePuyoGame(boardRef: React.RefObject<HTMLElement | null>) {
       puyoAudio.stopBgm();
       puyoAudio.playSfx('gameover');
     }
-    if (prev === 'GAME_OVER' && curr === 'SPAWN') {
+    if ((prev === 'GAME_OVER' || prev === 'WAITING') && curr === 'SPAWN') {
       if (!state.isMuted) puyoAudio.playBgm();
     }
   }, [state.phase, state.chainCount, state.isMuted]);

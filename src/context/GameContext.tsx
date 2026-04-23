@@ -19,7 +19,7 @@ function createInitialState(): GameState {
     board: createBoard(),
     falling: null,
     queue,
-    phase: 'SPAWN',
+    phase: 'WAITING',
     prevPhase: null,
     score: 0,
     hiScore: getHiScore(),
@@ -151,6 +151,8 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
     case 'TICK': {
       const { deltaMs } = action;
       switch (state.phase) {
+        case 'WAITING':
+          return state;
         case 'SPAWN':
           return spawnPhase(state);
         case 'FALLING':
@@ -233,6 +235,9 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
       };
     }
 
+    case 'START':
+      return { ...createInitialState(), phase: 'SPAWN', isMuted: state.isMuted };
+
     case 'PAUSE_TOGGLE': {
       if (state.phase === 'GAME_OVER') return state;
       if (state.phase === 'PAUSED') {
@@ -242,7 +247,7 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
     }
 
     case 'RESTART':
-      return createInitialState();
+      return { ...createInitialState(), isMuted: state.isMuted };
 
     case 'MUTE_TOGGLE':
       return { ...state, isMuted: !state.isMuted };

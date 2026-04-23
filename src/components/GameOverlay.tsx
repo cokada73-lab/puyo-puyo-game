@@ -1,11 +1,24 @@
 'use client';
 
 import { useGameDispatch, useGameState } from '@/context/GameContext';
+import { puyoAudio } from '@/lib/puyo/audio';
 import styles from './GameOverlay.module.css';
 
 export function GameOverlay() {
   const { phase, score, hiScore, maxChain } = useGameState();
   const dispatch = useGameDispatch();
+
+  if (phase === 'WAITING') {
+    return (
+      <div className={styles.overlay}>
+        <h2 className={styles.title}>ぷよぷよ</h2>
+        <p className={styles.subtitle}>さあ、はじめよう！</p>
+        <button className={styles.button} onClick={() => { puyoAudio.unlock(); dispatch({ type: 'START' }); }}>
+          スタート
+        </button>
+      </div>
+    );
+  }
 
   if (phase !== 'GAME_OVER' && phase !== 'PAUSED') return null;
 
@@ -34,7 +47,7 @@ export function GameOverlay() {
         className={styles.button}
         onClick={() => dispatch({ type: isGameOver ? 'RESTART' : 'PAUSE_TOGGLE' })}
       >
-        {isGameOver ? 'Play Again' : 'Resume'}
+        {isGameOver ? 'もう一度' : 'Resume'}
       </button>
     </div>
   );

@@ -52,6 +52,7 @@ export interface ScorePopupEntry {
 }
 
 export type GamePhase =
+  | 'WAITING'
   | 'SPAWN'
   | 'FALLING'
   | 'LOCKING'
@@ -91,6 +92,7 @@ export type GameAction =
   | { type: 'SOFT_DROP' }
   | { type: 'HARD_DROP' }
   | { type: 'PAUSE_TOGGLE' }
+  | { type: 'START' }
   | { type: 'RESTART' }
   | { type: 'MUTE_TOGGLE' }
   | { type: 'DISMISS_POPUP'; id: number }

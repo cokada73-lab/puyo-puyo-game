@@ -64,3 +64,9 @@
 .button:active {
   transform: scale(0.97);
 }
+
+.subtitle {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.65);
+  letter-spacing: 0.08em;
+}

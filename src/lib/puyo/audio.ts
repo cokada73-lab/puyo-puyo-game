@@ -112,6 +112,13 @@ class PuyoAudio {
     this.bgmNodes = [];
   }
 
+  unlock(): void {
+    const ctx = this.getCtx();
+    if (ctx.state === 'suspended') {
+      ctx.resume();
+    }
+  }
+
   setMuted(v: boolean): void {
     this.muted = v;
     if (v) this.stopBgm();
