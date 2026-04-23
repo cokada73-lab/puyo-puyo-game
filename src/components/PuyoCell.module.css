@@ -1,0 +1,93 @@
+.cell {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.puyo {
+  position: absolute;
+  inset: 2px;
+  border-radius: 50%;
+  transition: border-radius 0.05s ease;
+}
+
+/* Colors */
+.color-1 { background: radial-gradient(circle at 35% 35%, #ff9999, #e03030); box-shadow: inset -2px -3px 4px rgba(0,0,0,0.25), inset 2px 2px 4px rgba(255,255,255,0.4); }
+.color-2 { background: radial-gradient(circle at 35% 35%, #99ccff, #2060e0); box-shadow: inset -2px -3px 4px rgba(0,0,0,0.25), inset 2px 2px 4px rgba(255,255,255,0.4); }
+.color-3 { background: radial-gradient(circle at 35% 35%, #99ee99, #20a030); box-shadow: inset -2px -3px 4px rgba(0,0,0,0.25), inset 2px 2px 4px rgba(255,255,255,0.4); }
+.color-4 { background: radial-gradient(circle at 35% 35%, #ffee88, #d0a000); box-shadow: inset -2px -3px 4px rgba(0,0,0,0.25), inset 2px 2px 4px rgba(255,255,255,0.4); }
+.color-5 { background: radial-gradient(circle at 35% 35%, #dd99ff, #9020d0); box-shadow: inset -2px -3px 4px rgba(0,0,0,0.25), inset 2px 2px 4px rgba(255,255,255,0.4); }
+
+/* Neighbor mask: bit0=top, bit1=right, bit2=bottom, bit3=left */
+/* Corner rounding: a corner is rounded (50%) unless BOTH adjacent sides are connected */
+/* top-left  rounded when !(top && left)  = !(bit0 && bit3) */
+/* top-right rounded when !(top && right) = !(bit0 && bit1) */
+/* bot-right rounded when !(bot && right) = !(bit2 && bit1) */
+/* bot-left  rounded when !(bot && left)  = !(bit2 && bit3) */
+
+.mask-0  { border-radius: 50% 50% 50% 50%; }                        /* isolated */
+.mask-1  { border-radius: 50% 50% 50% 50%; }                        /* top only */
+.mask-2  { border-radius: 50% 50% 50% 50%; }                        /* right only */
+.mask-3  { border-radius: 50% 0 50% 50%; }                          /* top+right */
+.mask-4  { border-radius: 50% 50% 50% 50%; }                        /* bottom only */
+.mask-5  { border-radius: 50% 50% 50% 50%; }                        /* top+bottom */
+.mask-6  { border-radius: 50% 50% 0 50%; }                          /* right+bottom */
+.mask-7  { border-radius: 50% 0 0 50%; }                            /* top+right+bottom */
+.mask-8  { border-radius: 50% 50% 50% 50%; }                        /* left only */
+.mask-9  { border-radius: 0 50% 50% 50%; }                          /* top+left */
+.mask-10 { border-radius: 50% 50% 50% 0; }                          /* right+left */
+.mask-11 { border-radius: 0 0 50% 50%; }                            /* top+right+left */
+.mask-12 { border-radius: 50% 50% 0 0%; }                           /* bottom+left */
+.mask-13 { border-radius: 0 50% 0 50%; }                            /* top+bottom+left */
+.mask-14 { border-radius: 50% 50% 0 0; }                            /* right+bottom+left */
+.mask-15 { border-radius: 0; }                                       /* all connected */
+
+/* Eyes on isolated/top-only puyos */
+.puyo::before {
+  content: '';
+  position: absolute;
+  top: 28%;
+  left: 22%;
+  width: 18%;
+  height: 18%;
+  background: white;
+  border-radius: 50%;
+  box-shadow: 28% 0 0 white;
+}
+.puyo::after {
+  content: '';
+  position: absolute;
+  top: 32%;
+  left: 26%;
+  width: 8%;
+  height: 8%;
+  background: rgba(0,0,0,0.6);
+  border-radius: 50%;
+  box-shadow: 28% 0 0 rgba(0,0,0,0.6);
+}
+
+/* Popping animation */
+@keyframes popFlash {
+  0%   { opacity: 1; transform: scale(1); }
+  20%  { opacity: 0.3; transform: scale(1.15); }
+  40%  { opacity: 1; transform: scale(0.9); }
+  60%  { opacity: 0.2; transform: scale(1.1); }
+  80%  { opacity: 1; transform: scale(0.95); }
+  100% { opacity: 0; transform: scale(0); }
+}
+
+.popping .puyo {
+  animation: popFlash 0.5s ease-in-out forwards;
+}
+
+/* Landing bounce */
+@keyframes landBounce {
+  0%   { transform: scaleY(0.7) scaleX(1.2); }
+  40%  { transform: scaleY(1.1) scaleX(0.95); }
+  70%  { transform: scaleY(0.97) scaleX(1.01); }
+  100% { transform: scaleY(1) scaleX(1); }
+}
+
+.landing .puyo {
+  animation: landBounce 0.2s ease-out forwards;
+}

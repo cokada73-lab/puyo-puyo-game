@@ -1,0 +1,50 @@
+.wrapper {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255,255,255,0.2);
+  background: rgba(20, 10, 40, 0.85);
+  border: 2px solid rgba(255, 255, 255, 0.15);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(6, var(--cell-size, 44px));
+  grid-template-rows: repeat(12, var(--cell-size, 44px));
+}
+
+/* Screen shake */
+@keyframes shake {
+  0%   { transform: translate(0, 0); }
+  15%  { transform: translate(-6px, 3px); }
+  30%  { transform: translate(5px, -4px); }
+  45%  { transform: translate(-4px, 2px); }
+  60%  { transform: translate(3px, -3px); }
+  75%  { transform: translate(-2px, 1px); }
+  90%  { transform: translate(1px, -1px); }
+  100% { transform: translate(0, 0); }
+}
+
+.shake {
+  animation: shake 0.4s ease-out;
+}
+
+/* Screen flash overlay */
+.wrapper::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  background: white;
+}
+
+@keyframes chainFlash {
+  0%   { opacity: 0; }
+  20%  { opacity: 0.5; }
+  100% { opacity: 0; }
+}
+
+.flash::after {
+  animation: chainFlash 0.3s ease-out;
+}

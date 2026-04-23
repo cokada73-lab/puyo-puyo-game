@@ -1,0 +1,66 @@
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  background: rgba(10, 5, 25, 0.75);
+  backdrop-filter: blur(8px);
+  border-radius: 10px;
+  z-index: 20;
+}
+
+.title {
+  font-size: clamp(1.4rem, 5vmin, 2rem);
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  color: #fff;
+  text-shadow: 0 0 20px rgba(255, 100, 200, 0.8);
+}
+
+.scoreRow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.scoreLabel {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.55);
+  text-transform: uppercase;
+}
+
+.scoreValue {
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: #ffd700;
+}
+
+.button {
+  margin-top: 8px;
+  padding: 10px 28px;
+  border: none;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #ff6eb4, #a855f7);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(168, 85, 247, 0.5);
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+
+.button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(168, 85, 247, 0.7);
+}
+
+.button:active {
+  transform: scale(0.97);
+}
